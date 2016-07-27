@@ -1,82 +1,40 @@
-# BOSH One Day Workshop
+# BOSH Half Day Workshop
 
-This is a One day training on BOSH that will allow ops teams to get familiar with bosh concepts and also start using bosh in their environments.
-
-## Install PCF DEV
-
-1. Download the latest `pcfdev-VERSION-PLATFORM.zip` from the [Pivotal Network](https://network.pivotal.io/).
-1. Unzip the zip file and navigate to its containing folder.
-1. Run `cf install-plugin pcfdev-VERSION-PLATFORM` at your command line
-1. Run `cf dev start`
-
-> Check out the [documentation](https://docs.pivotal.io/pcf-dev/) for more information. Running `cf dev help` will display an overview of PCF Dev VM management commands.
+This is a half day training on BOSH that will allow ops teams to get familiar with BOSH concepts and also start using BOSH in their environments.
 
 ### Prerequisites
 
-* [CF CLI](https://github.com/cloudfoundry/cli)
 * [VirtualBox](https://www.virtualbox.org/): 5.0+
+* [Vagrant](http://www.vagrantup.com/)
+* 6GB of available memory for BOSH lite VM.  See optional section below to tweak this setting.
+* ...or AWS account.
 * Internet connection (or [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) or [Acrylic](http://mayakron.altervista.org/wikibase/show.php?id=AcrylicHome)) required for wildcard DNS resolution
 
-### Using the Cloud Foundry CLI Plugin
+### VirtualBox setup
 
-Follow the instructions provided at the end of `cf dev start` to connect to PCF Dev:
+1. Clone the BOSH lite repo from Github - `git clone https://github.com/cloudfoundry/bosh-lite.git`
+2. cd to bosh-lite (repo) directory and run `vagrant up`.
+3. Run `vagrant ssh` to login to the VM as the *vagrant* user.
+4. Run `git clone https://github.com/tgreenyc/cf-bosh-workshop.git` into *vagrant* home directory.  NOTE: This should be run _inside_ VirtualBox VM.
+5. Run `cd cf-bosh-workshop` and you are prepared to start the [Labs](Labs)
+
+### (optional) Changing memory usage for BOSH lite
+
+This optional step should be performed if you don't have enough memory on your local machine.  It is strongly recommended that you don't go below 4GB for performance reasons.
+Open the Vagrantfile inside of the bosh-lite repo directory that you clone, and create a new line below: 
+
+```ruby
+config.vm.provider :virtualbox do |v, override|
 
 ```
- _______  _______  _______    ______   _______  __   __
-|       ||       ||       |  |      | |       ||  | |  |
-|    _  ||       ||    ___|  |  _    ||    ___||  |_|  |
-|   |_| ||       ||   |___   | | |   ||   |___ |       |
-|    ___||      _||    ___|  | |_|   ||    ___||       |
-|   |    |     |_ |   |      |       ||   |___  |     |
-|___|    |_______||___|      |______| |_______|  |___|
-is now running.
-To begin using PCF Dev, please run:
-	cf login -a api.local.pcfdev.io --skip-ssl-validation
-Email: admin
-Password: admin
+
+And add:
+
+```ruby
+  v.memory = 4096
 ```
-
-## Install PROCTOR
-A tool for running BOSH 101 classrooms.
-
-- [Binary releases](https://github.com/rosenhouse/proctor/releases)
-
-- [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1434846)
-
-
-### Basic usage
-0. Load credentials for your AWS environment
-    ```
-    export AWS_DEFAULT_REGION=us-east-1  # this can be any region that has a BOSH-lite AMI
-    export AWS_ACCESS_KEY_ID=YOUR-ACCESS-KEY
-    export AWS_SECRET_ACCESS_KEY=YOUR-SECRET-KEY
-    ```
-
-0. Create a new classroom
-    ```
-    proctor create -name my-classroom -number 3
-    ```
-    This will spin up 3 EC2 instances in your AWS account.
-
-0. Watch your classroom get created
-    ```
-    proctor describe -name my-classroom
-    ```
-    The SSH key was generated at `create` time and is world-readable.
-
-0. Run a command on all VMs
-    ```
-    proctor run -name my-classroom -c 'bosh status'
-    ```
-
-0. Destroy your classroom
-    ```
-    proctor destroy -name my-classroom
-    ```
 
 # Copyright
 
 See [LICENSE](LICENSE) for details.
 Copyright (c) 2016 [Pivotal Software, Inc](http://www.pivotal.io/).
-
-PCF Dev uses a version of Monit that can be found [here](https://github.com/pivotal-cf/pcfdev-monit), under the GPLv3 license.
