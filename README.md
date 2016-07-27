@@ -15,7 +15,7 @@ This is a half day training on BOSH that will allow ops teams to get familiar wi
 1. Clone the BOSH lite repo from Github - `git clone https://github.com/cloudfoundry/bosh-lite.git`
 2. cd to bosh-lite (repo) directory and run `vagrant up`.
 3. Run `vagrant ssh` to login to the VM as the *vagrant* user.
-4. Run `git clone https://github.com/tgreenyc/cf-bosh-workshop.git` into *vagrant* home directory.  NOTE: This should be run _inside_ VirtualBox VM.
+4. Run `git clone https://github.com/tgreenyc/cf-bosh-workshop.git` into *vagrant* home directory.  NOTE: This should be run *inside* VirtualBox VM.
 5. Run `cd cf-bosh-workshop` and you are prepared to start the [Labs](Labs)
 
 ### (optional) Changing memory usage for BOSH lite
@@ -33,6 +33,8 @@ And add:
 ```ruby
   v.memory = 4096
 ```
+
+Note that this needs to be run before performing step #2 in *VirtualBox setup* section (above).
 
 # Copyright
 
